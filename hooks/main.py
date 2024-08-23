@@ -43,7 +43,7 @@ def check_file(root_dir):
                         error = rule["check"](file_path, content)
                         if error:
                             arr.append([file_path])
-                            print(error) 
+                            #print(error) 
             except Exception as e:
                 print(f"Error: {e}") 
                 return False
