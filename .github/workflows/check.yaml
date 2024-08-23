@@ -30,4 +30,4 @@ jobs:
       - run: |
           echo "${{ matrix.value[0] }}"
       - name: Create annotation for build error
-        run: echo "::error file=${{ matrix.value[0]}}::Contain restricted pattern"
+        run: echo "::error file=${{ matrix.value[0]}},line=${{ matrix.value[1] }}::Contain restricted pattern"
