@@ -41,7 +41,7 @@ def check_file(root_dir):
                     if rule["file_filter"](Path(file_path)):
                         error = rule["check"](file_path, content)
                         if error:
-                            arr.append([file_path,"1"])
+                            arr.append([file_path])
                             print(error) 
             except Exception as e:
                 print(f"Error: {e}") 
