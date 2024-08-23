@@ -1,0 +1,33 @@
+name: Test Github Actions Dynamic Matrix
+on:
+  workflow_call:  
+  
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.value }}
+    steps:
+      - uses: actions/checkout@v4       
+      - uses: actions/checkout@v4
+        with:
+          repository: solankiarpan/generic-action
+          path: hook                
+      - name: Build image      
+        run: |
+           docker build -t check -f hook/Dockerfile .             
+      - id: matrix
+        run: |
+          echo "value=$(docker run check)" 
+          echo "value=$(docker run check)" >> $GITHUB_OUTPUT
+  build:
+    needs: [ setup ]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        value: ${{fromJSON(needs.setup.outputs.matrix)}}
+    steps:
+      - run: |
+          echo "${{ matrix.value[0] }}"
+      - name: Create annotation for build error
+        run: echo "::error file=${{ matrix.value[0]}},line=${{ matrix.value[1] }}::Contain restricted pattern"
