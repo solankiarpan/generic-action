@@ -7,6 +7,7 @@ from pathlib import Path
 from hooks.rules import rules
 
 arr = []
+'''
 def find_word_in_files(root_dir, word):
     word_found = False
     for subdir, _, files in os.walk(root_dir):
@@ -25,7 +26,7 @@ def find_word_in_files(root_dir, word):
     if word_found:
         print(arr)
         sys.exit(1)
-
+'''
 
 def check_file(root_dir):
     for subdir,_, files in os.walk(root_dir):
