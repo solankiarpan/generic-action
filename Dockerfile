@@ -1,5 +1,5 @@
 FROM python:3.11-slim
 
-ADD . .
+ADD * .
 
 CMD [ "python", "./pre_commit_hook.py" ]
