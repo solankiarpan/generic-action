@@ -41,11 +41,13 @@ def check_file(root_dir):
             try:
                 with open(file_path, 'r', encoding='utf-8') as file:
                     content = file.read()
-
+                print("checking file"+ file_path)
                 for rule in rules:
                     if rule["file_filter"](Path(file_path)):
                         error = rule["check"](file_path, content)
+                        print("here...48")
                         if error:
+                            print("here in error")
                             arr.append([file_path,"1"])
                             rule_desc = rule["description"]
                             print(f"::warning file={file.strip(workspace)},title={rule_desc}::{error}")
@@ -61,6 +63,7 @@ def main():
     # Usage
     if not check_file('./'):
         print(arr)
+        print("Not check files")
         sys.exit(1)
 
     sys.exit(0)  
