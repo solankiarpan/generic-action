@@ -7,6 +7,10 @@ from pathlib import Path
 from hooks.rules import rules
 
 arr = []
+workspace = os.getenv("GITHUB_WORKSPACE")
+if not workspace:
+    raise ValueError("GITHUB_WORKSPACE environment variable not set")
+
 '''
 def find_word_in_files(root_dir, word):
     word_found = False
@@ -43,6 +47,8 @@ def check_file(root_dir):
                         error = rule["check"](file_path, content)
                         if error:
                             arr.append([file_path,"1"])
+                            rule_desc = rule["description"]
+                            print(f"::warning file={file.strip(workspace)},title={rule_desc}::{error}")
                             print(error) 
             except Exception as e:
                 #print(f"Error: {e}") 
