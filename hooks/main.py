@@ -7,6 +7,7 @@ from pathlib import Path
 from hooks.rules import rules
 
 arr = []
+error_found = False
 workspace = os.getenv("GITHUB_WORKSPACE")
 if not workspace:
     raise ValueError("GITHUB_WORKSPACE environment variable not set")
@@ -47,17 +48,18 @@ def check_file(root_dir):
                         error = rule["check"](file_path, content)
                         print("here...48")
                         if error:
+                            error_found = True
                             print("here in error")
                             print(workspace)
                             arr.append([file_path,"1"])
                             rule_desc = rule["description"]
-                            print(f"::warning file={file_path.strip(workspace)},title={rule_desc}::{error}")
+                            print(f"::warning file={file_path.strip(workspace)},line={1},endLine={2},title={rule_desc}::{error}")
                             print(error) 
             except Exception as e:
                 #print(f"Error: {e}") 
                 return False
     
-    return True
+    return error_found
 
 
 def main():
