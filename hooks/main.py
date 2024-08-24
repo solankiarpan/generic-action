@@ -7,7 +7,7 @@ from pathlib import Path
 from hooks.rules import rules
 
 arr = []
-error_found = False
+
 workspace = os.getenv("GITHUB_WORKSPACE")
 if not workspace:
     raise ValueError("GITHUB_WORKSPACE environment variable not set")
@@ -34,6 +34,7 @@ def find_word_in_files(root_dir, word):
 '''
 
 def check_file(root_dir):
+    error_found = False
     for subdir,_, files in os.walk(root_dir):
         for file in files:
             file_path = os.path.join(subdir, file)
@@ -53,7 +54,7 @@ def check_file(root_dir):
                             print(workspace)
                             arr.append([file_path,"1"])
                             rule_desc = rule["description"]
-                            print(f"::warning file={file_path.strip(workspace)},line={1},endLine={2},title={rule_desc}::{error}")
+                            print(f"::error file={file_path.strip(workspace)},line={1},endLine={2},title={rule_desc}::{error}")
                             print(error) 
             except Exception as e:
                 #print(f"Error: {e}") 
@@ -64,7 +65,7 @@ def check_file(root_dir):
 
 def main():
     # Usage
-    if not check_file('./'):
+    if  check_file('./'):
         print(arr)
         print("Not check files")
         sys.exit(1)
